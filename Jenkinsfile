@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -17,7 +18,10 @@ pipeline {
                         installationName: 'SonarQube',
                         credentialsId: 'sonarqube-token'
                     ) {
-                        sh "${scannerHome}/bin/sonar-scanner"
+                        sh """
+                            export SONAR_TOKEN="\$SONAR_AUTH_TOKEN"
+                            "${scannerHome}/bin/sonar-scanner"
+                        """
                     }
                 }
             }
