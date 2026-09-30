@@ -13,7 +13,10 @@ pipeline {
                 script {
                     def scannerHome = tool 'SonarScanner'
 
-                    withSonarQubeEnv('SonarQube') {
+                    withSonarQubeEnv(
+                        installationName: 'SonarQube',
+                        credentialsId: 'sonarqube-token'
+                    ) {
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
